@@ -2,11 +2,11 @@
 #  Sample schedule for CIS 322, Winter 2016. 
 #  You can use this as a model to create a schedule
 #  for another class, and use the configuration file 
-# to reference it.   
+#  to reference it.
 #
 #
 
-begin: 09/01/2017
+begin: 09/25/2017
 
 week: 1
 
@@ -95,4 +95,3 @@ functionality from projects 6, 7, and 8. Produce and critique mock-ups
 week: 10
 topic:  	Wrap-up; review designs and implementations
 project:  Finish MeetMe project. 
-

@@ -32,7 +32,12 @@ if configuration.DEBUG:
 # Pre-processed schedule is global, so be careful to update
 # it atomically in the view functions.
 #
-schedule = pre.process(open(configuration.SYLLABUS))
+schedule = pre.process(open(configuration.SYLLABUS, encoding="utf-8"))
+
+# Calculate how many weeks have elapsed since term started.
+elapsed_time = arrow.now() - pre.base
+elapsed_weeks = (elapsed_time.days // 7) + 1
+current_week = elapsed_weeks
 
 
 ###
@@ -41,12 +46,14 @@ schedule = pre.process(open(configuration.SYLLABUS))
 # followed by html from the template.
 ###
 
+
 @app.route("/")
 @app.route("/index")
 def index():
     """Main application page; most users see only this"""
     app.logger.debug("Main page entry")
     flask.g.schedule = schedule  # To be accessible in Jinja2 on page
+    flask.g.current_week = current_week
     return flask.render_template('syllabus.html')
 
 
@@ -92,12 +99,21 @@ def no_you_cant(error):
 @app.template_filter('fmtdate')
 def format_arrow_date(date):
     try:
+        date = int(date) - 1
+        date = pre.base.replace(weeks=+date)
         normal = arrow.get(date)
-        return normal.format("ddd MM/DD/YYYY")
+        return normal.format(" MM/DD")
     except:
         return "(bad date)"
 
 
+# @app.template_filter()
+# def mark_week(w):
+#     count = 0
+#     for i in w:
+#         week_i = pre.base.replace(days=count).format("MM/DD")
+#         i['week'] += " {}".format(week_i)
+#         count += 7
 #
 # If run as main program (not under gunicorn), we
 # turn on debugging.  Connects to anything (0.0.0.0)
