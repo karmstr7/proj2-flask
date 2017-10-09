@@ -107,13 +107,6 @@ def format_arrow_date(date):
         return "(bad date)"
 
 
-# @app.template_filter()
-# def mark_week(w):
-#     count = 0
-#     for i in w:
-#         week_i = pre.base.replace(days=count).format("MM/DD")
-#         i['week'] += " {}".format(week_i)
-#         count += 7
 #
 # If run as main program (not under gunicorn), we
 # turn on debugging.  Connects to anything (0.0.0.0)
